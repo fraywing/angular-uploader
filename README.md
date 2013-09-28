@@ -15,10 +15,14 @@ A sweet HTML5 multi file upload directive, with quality control, previewing, and
 </div>
 ```
 
-***maxWidth*** Currently is the pixel width that your image will be resized to
-***maxHeight*** Currently is the pixel height that your image will also be resized to
-***dragNdrop*** On by default, can't disable as of yet
-***url*** Where to shoot your base64 encoded, resized image to!
+***maxWidth*** 
+Currently is the pixel width that your image will be resized to
+***maxHeight*** 
+Currently is the pixel height that your image will also be resized to
+***dragNdrop*** O
+n by default, can't disable as of yet
+***url*** 
+Where to shoot your base64 encoded, resized image to!
 
 ***TODO***
   1.Make Multiple work
