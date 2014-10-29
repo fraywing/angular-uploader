@@ -27,6 +27,20 @@ On by default, cant disable as of yet
 ***url*** 
 Where to shoot your base64 encoded, resized image to!
 
+***defaultImage***
+
+Using a defaultImage on module load.
+
+```html
+<div angular-upload upload-opts='
+{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : Can't disable, "url" : "/api/saveImage", "defaultImage": "www/images/default/default.png" }')
+</div>
+```
+
+
+N.B. This feature hide default button uploadfile.
+
+
 
 ***TODO***
   1.Make Multiple work
