@@ -11,7 +11,7 @@ N.B. Requires jQuery
 
 v.0.0.2
 
- - Adding multi object support
+ - Adding multi-object support in a single page
  - Agging switch on/off dragNdrop functionality
  - Adding defaultImage functionality
  - BugFix 
