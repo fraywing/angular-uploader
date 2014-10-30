@@ -3,9 +3,19 @@ angular-uploader
 
 A sweet HTML5 multi file upload directive, with quality control, previewing, and resizing images!
 
+N.B. Requires jQuery
+
 ###angular-uploader v0.0.2
 
-##Requires jQuery
+##changelog
+
+v.0.0.2
+
+ - Adding multi object support
+ - Agging switch on/off dragNdrop functionality
+ - Adding defaultImage functionality
+ - BugFix 
+
 
 ***USAGE***
 
