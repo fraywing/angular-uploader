@@ -6,9 +6,9 @@
   
   USAGE
   1.
-  <div angular-upload upload-opts='{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : NOTWORKING, "url" : "/api/saveImage"}')</div>
+  <div angular-upload upload-opts='{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : false, "url" : "/api/saveImage"}')</div>
   2.
-  <div angular-upload upload-opts='{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : NOTWORKING, "url" : "/api/saveImage"}', "defaultImage": "yourImage")</div>
+  <div angular-upload upload-opts='{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : true, "url" : "/api/saveImage"}', "defaultImage": "yourImage")</div>
  
  TODO
  1.Make Multiple work
@@ -22,26 +22,31 @@ var angularUploader = angular.module('angular-uploader', []);
 
 angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootScope) {
     var methods = {
-        bind: function (el) {
+        bind: function (el, code) {
             var self = this;
+            
             if(self.imageMode) {
             	el[0].addEventListener('click', function (e) {
             		$(this).find('input').trigger('click');
             	});
             }
+            
             $(el).find('input').change(function (e) {
-                self.readFile(e.target.files);
+                self.readFile(e.target.files, code);
             });
-            el[0].addEventListener('dragover', function (e) {
-                e.preventDefault();
-            });
-            el[0].addEventListener('drop', function (e) {
-                e.preventDefault();
-                self.readFile(e.dataTransfer.files);
-            });
-
+            
+            if(self.options.dragNdrop) {
+	            el[0].addEventListener('dragover', function (e) {
+	                e.preventDefault();
+	            });
+	            el[0].addEventListener('drop', function (e) {
+	                e.preventDefault();
+	                self.readFile(e.dataTransfer.files, code);
+	            });
+            }
+            
         },
-        readFile: function (e) {
+        readFile: function (e, code) {
             var self = this;
             var fileRead = new FileReader();
             files = e,
@@ -56,14 +61,14 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
                 fileRead.onload = function (dataImg) {
                     var imageResult = dataImg.target.result;
                     //remove defaultImage
-                    var defaultImageElement = document.getElementById("default-image");
+                    var defaultImageElement = document.getElementById("default-image-"+code);
                     if(defaultImageElement) {
                     	defaultImageElement.remove();
                     }
                     
                     var img = document.createElement("img");
                     img.src = imageResult;
-                    var promise = self.makeSize(img, self.options, self.imageMode);
+                    var promise = self.makeSize(img, self.options, self.imageMode, code);
                     
                     promise.then(function(canvas){ //normal implementation
                          self.makePreview(canvas);
@@ -98,11 +103,11 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
             };
 
         },
-        makeSize: function (img, opts, imageMode) {
+        makeSize: function (img, opts, imageMode, code) {
             var self = this;
             var canvas = document.createElement("canvas"),
                 context = canvas.getContext('2d');
-            	canvas.id = "canvas-"+self.code;
+            	canvas.id = "canvas-"+code;
             var defer = $q.defer();
 
             setTimeout(function () {
@@ -117,9 +122,19 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
                 
                 //adding click event to 
                 if(imageMode) {
-                	document.getElementById(canvas.id).addEventListener('click', function (e) {
-	            		$('#file-input-'+self.code).trigger('click');
+                	var el = document.getElementById(canvas.id);
+                	el.addEventListener('click', function (e) {
+	            		$('#file-input-'+code).trigger('click');
 	            	});
+                	if(opts.dragNdrop) {
+	                	el.addEventListener('dragover', function (e) {
+	    	                e.preventDefault();
+	    	            });
+	    	            el.addEventListener('drop', function (e) {
+	    	                e.preventDefault();
+	    	                self.readFile(e.dataTransfer.files, code);
+	    	            });
+                	}
             	}
                 
             }, 400);
@@ -157,7 +172,7 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
            
             //append default image
             if(opts.defaultImage) {
-            	$(el).append("<img id='default-image' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' alt='Click to upload a file'/>"); 
+            	$(el).append("<img id='default-image-" + code + "' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' alt='Click to upload a file'/>"); 
             	$(el).append("<input id='file-input-" + code + "' type='file' " + multi + " name='angular-file-upload' style='display:none' />");
             } else {
             	$(el).append("<input type='file' " + multi + " name='angular-file-upload'/>");
@@ -167,7 +182,7 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
             methods.options = opts;
             methods.imageMode = (opts.defaultImage) ? true : false;
             
-            methods.bind(el);
+            methods.bind(el, code);
         }
     };
 
