@@ -27,6 +27,13 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
             	el[0].addEventListener('click', function (e) {
             		$("input#file-input-" + code).trigger('click');
             	});
+            	//manage image text overlay 
+            	$("img#default-image-" + code).mouseover(function (e) {
+            		$("span#angular-uploader-figure-label-" + code).toggle();
+            	});
+            	$("img#default-image-" + code).mouseout(function (e) {
+            		$("span#angular-uploader-figure-label-" + code).toggle();
+            	});
             }
             
             $(el).find("input#file-input-" + code).change(function (e) {
@@ -59,9 +66,9 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
                 fileRead.onload = function (dataImg) {
                     var imageResult = dataImg.target.result;
                     //remove defaultImage
-                    var defaultImageElement = document.getElementById("default-image-"+code);
-                    if(defaultImageElement) {
-                    	defaultImageElement.remove();
+                    var defaultImageContainerElement = document.getElementById("angular-uploader-figure-container-"+code);
+                    if(defaultImageContainerElement) {
+                    	defaultImageContainerElement.remove();
                     }
                     
                     var img = document.createElement("img");
@@ -133,6 +140,12 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
 	    	                self.readFile(e.dataTransfer.files, code);
 	    	            });
                 	}
+                	$("#"+canvas.id).mouseover(function (e) {
+                		$("span#angular-uploader-figure-label-" + code).toggle();
+                	});
+                	$("#"+canvas.id).mouseout(function (e) {
+                		$("span#angular-uploader-figure-label-" + code).toggle();
+                	});
             	}
                 
             }, 400);
@@ -171,13 +184,13 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
             // input#file-input-10
             if(opts.defaultImage) {
             	// append default image
-            	$(el).append("<img id='default-image-" + code + "' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' alt='Click to upload a file'/>"); 
+            	$(el).append("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><img id='default-image-" + code + "' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' /><span id=\"angular-uploader-figure-label-" + code + "\" class=\"angular-uploader-figure-label\">Drop files to upload (or click)</span></div>"); 
             	$(el).append("<input id='file-input-" + code + "' type='file' " + multi + " name='angular-file-upload' style='display:none' />");
             } else {
             	$(el).append("<input id='file-input-" + code +"' type='file' " + multi + " name='angular-file-upload'/>");
             }
             
-            $(el).after("<div id='canvas-" + code + "-upload-preview' class='angular-upload-preview'></div>");
+            $(el).after("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><div id='canvas-" + code + "-upload-preview' class='angular-upload-preview'></div><span id=\"angular-uploader-figure-label-" + code + "\" class=\"angular-uploader-figure-label\">Drop files to upload (or click)</span></div>");
 
             methods.bind(el, code, imageMode, opts);
         }

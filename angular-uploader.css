@@ -1,0 +1,17 @@
+/* Style to describe image action */
+
+.angular-uploader-figure-container 
+{
+    position: relative;  
+    display: inline-block;
+}
+
+.angular-uploader-figure-label
+{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: White;
+    display: none;
+    font-style:italic;
+}
