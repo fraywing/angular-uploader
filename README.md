@@ -55,13 +55,6 @@ This field is a description string to indicate upload instruction.
 
 Default value is "Drop files to upload (or click)" 
 
-```html
-<div angular-upload upload-opts='
-{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : Can't disable, "url" : "/api/saveImage", "defaultImage": "www/images/default/default.png" }')
-</div>
-```
-
-N.B. This feature hide default button uploadfile.
 
 ***TODO***
 
