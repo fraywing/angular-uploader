@@ -179,18 +179,30 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
             var imageMode = (opts.defaultImage) ? true : false;
             var code = Math.round(Math.random() * 100);
            
+            if(!opts.description) {
+            	opts.description = "Drop files to upload (or click)"; //DEFAULT VALUE
+            }
+            
             // example:
             // img#default-image-10
             // input#file-input-10
             if(opts.defaultImage) {
             	// append default image
-            	$(el).append("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><img id='default-image-" + code + "' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' /><span id=\"angular-uploader-figure-label-" + code + "\" class=\"angular-uploader-figure-label\">Drop files to upload (or click)</span></div>"); 
+            	// DOM:
+            	// - DIV 
+            	// > - IMG
+            	// > - SPAN
+            	$(el).append("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><img id='default-image-" + code + "' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' /><span id=\"angular-uploader-figure-label-" + code + "\" class=\"angular-uploader-figure-label\">"+opts.description+"</span></div>"); 
             	$(el).append("<input id='file-input-" + code + "' type='file' " + multi + " name='angular-file-upload' style='display:none' />");
             } else {
             	$(el).append("<input id='file-input-" + code +"' type='file' " + multi + " name='angular-file-upload'/>");
             }
             
-            $(el).after("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><div id='canvas-" + code + "-upload-preview' class='angular-upload-preview'></div><span id=\"angular-uploader-figure-label-" + code + "\" class=\"angular-uploader-figure-label\">Drop files to upload (or click)</span></div>");
+        	// DOM:
+        	// - DIV 
+        	// > > - DIV (will be insert canvas obj)
+        	// > - SPAN
+            $(el).after("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><div id='canvas-" + code + "-upload-preview' class='angular-upload-preview'></div><span id=\"angular-uploader-figure-label-" + code + "\" class=\"angular-uploader-figure-label\">"+opts.description+"</span></div>");
 
             methods.bind(el, code, imageMode, opts);
         }
