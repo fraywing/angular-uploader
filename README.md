@@ -9,12 +9,38 @@ N.B. Requires jQuery
 
 ##changelog
 
-v.0.0.2
+develop version
+ - Add text upload instruction (layer above image)
+
+v0.0.2
 
  - Adding multi-object support in a single page
  - Agging switch on/off dragNdrop functionality
  - Adding defaultImage functionality
  - BugFix 
+
+##installation
+
+1. Using bower 
+
+(develop)
+```
+bower install https://github.com/Fabryprog/angular-uploader.git#master --save
+```
+
+(v0.0.2)
+```
+bower install https://github.com/Fabryprog/angular-uploader.git#v0.0.2 --save
+```
+
+2. Add css and js file
+
+```html
+...
+    <link href="bower_components/angular-uploader/angular-uploader.css" rel="stylesheet">
+    <script src="bower_components/angular-uploader/angular-uploader.js"></script>
+...
+```
 
 
 ***USAGE***
