@@ -21,7 +21,7 @@ v.0.0.2
 
 ```html
 <div angular-upload upload-opts='
-{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : Can't disable, "url" : "/api/saveImage"}')
+{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : true, "url" : "/api/saveImage"}')
 </div>
 ```
 
@@ -43,7 +43,7 @@ Using a defaultImage on module load.
 
 ```html
 <div angular-upload upload-opts='
-{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : Can't disable, "url" : "/api/saveImage", "defaultImage": "www/images/default/default.png" }')
+{"maxWidth" : 661, "maxHeight" : 371, "dragNdrop" : true, "url" : "/api/saveImage", "defaultImage": "www/images/default/default.png" }')
 </div>
 ```
 
