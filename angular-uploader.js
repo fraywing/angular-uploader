@@ -157,9 +157,11 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
         },
         saveImage: function (canvas, url) {
                 var base = canvas.toDataURL();
-                $.post(url,{"image" : base},function(data){
-                        //needs handling support
-            	});
+                if(url) {
+	                $.post(url,{"image" : base},function(data){
+	                        //needs handling support
+	            	});
+                }
         }
 
     };
