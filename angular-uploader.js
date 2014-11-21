@@ -153,7 +153,7 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
             return defer.promise;
         },
         makePreview: function (canvas) {
-            $('#'+canvas.id+'-upload-preview').html(canvas);
+            $('#'+canvas.id+'-upload-preview').html('<img src="'+canvas.toDataURL()+'" />');
         },
         saveImage: function (canvas, url) {
                 var base = canvas.toDataURL();
