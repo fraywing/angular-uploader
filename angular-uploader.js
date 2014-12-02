@@ -68,7 +68,7 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
                     //remove defaultImage
                     var defaultImageContainerElement = document.getElementById("angular-uploader-figure-container-"+code);
                     if(defaultImageContainerElement) {
-                    	defaultImageContainerElement.remove();
+                    	defaultImageContainerElement.childNodes[0].remove();
                     }
                     
                     var img = document.createElement("img");
@@ -78,7 +78,7 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
                     promise.then(function(canvas){ //normal implementation
                          self.makePreview(canvas);
                          self.saveImage(canvas, options.url);
-                        });
+                    	});
 
                 };
             });
@@ -124,36 +124,38 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
                 context.drawImage(img, 0, 0, canvas.width, canvas.height);
                 defer.resolve(canvas);
                 $rootScope.$digest();
+              
                 
-                //adding click event to 
-                if(imageMode) {
-                	var el = document.getElementById(canvas.id);
-                	el.addEventListener('click', function (e) {
-	            		$('#file-input-'+code).trigger('click');
-	            	});
-                	if(opts.dragNdrop) {
-	                	el.addEventListener('dragover', function (e) {
-	    	                e.preventDefault();
-	    	            });
-	    	            el.addEventListener('drop', function (e) {
-	    	                e.preventDefault();
-	    	                self.readFile(e.dataTransfer.files, code);
-	    	            });
-                	}
-                	$("#"+canvas.id).mouseover(function (e) {
-                		$("span#angular-uploader-figure-label-" + code).toggle();
-                	});
-                	$("#"+canvas.id).mouseout(function (e) {
-                		$("span#angular-uploader-figure-label-" + code).toggle();
-                	});
-            	}
-                
-            }, 400);
+            }, 500);
 
             return defer.promise;
         },
         makePreview: function (canvas) {
-            $('#'+canvas.id+'-upload-preview').html('<img src="'+canvas.toDataURL()+'" />');
+            
+            var code = canvas.id.split("-")[1];
+            
+            var el = $('#'+canvas.id+'-upload-preview');
+            el.html('<img src="'+canvas.toDataURL()+'" />');
+            
+            el.click(function (e) {
+        		$('input#file-input-'+code).trigger('click');
+        	});
+
+        	el.on('dragover', function (e) {
+                e.preventDefault();
+            });
+            el.on('drop', function (e) {
+                e.preventDefault();
+                self.readFile(e.dataTransfer.files, code);
+            });
+
+        	el.mouseover(function (e) {
+        		$("span#angular-uploader-figure-label-" + code).toggle();
+        	});
+        	el.mouseout(function (e) {
+        		$("span#angular-uploader-figure-label-" + code).toggle();
+        	});
+            
         },
         saveImage: function (canvas, url) {
                 var base = canvas.toDataURL();
