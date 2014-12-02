@@ -137,22 +137,22 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
             var el = $('#'+canvas.id+'-upload-preview');
             el.html('<img src="'+canvas.toDataURL()+'" />');
             
-            el.click(function (e) {
+            el.unbind("click").click(function (e) {
         		$('input#file-input-'+code).trigger('click');
         	});
 
-        	el.on('dragover', function (e) {
+        	el.unbind("dragover").on('dragover', function (e) {
                 e.preventDefault();
             });
-            el.on('drop', function (e) {
+            el.unbind("drop").on('drop', function (e) {
                 e.preventDefault();
                 self.readFile(e.dataTransfer.files, code);
             });
 
-        	el.mouseover(function (e) {
+        	el.unbind("mouseover").mouseover(function (e) {
         		$("span#angular-uploader-figure-label-" + code).toggle();
         	});
-        	el.mouseout(function (e) {
+        	el.unbind("mouseout").mouseout(function (e) {
         		$("span#angular-uploader-figure-label-" + code).toggle();
         	});
             
