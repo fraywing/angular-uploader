@@ -77,7 +77,7 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
                     
                     promise.then(function(canvas){ //normal implementation
                          self.makePreview(canvas);
-                         self.saveImage(canvas, options.url);
+                         self.saveImage(canvas, options.url, options.params);
                     	});
 
                 };
@@ -157,12 +157,19 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
         	});
             
         },
-        saveImage: function (canvas, url) {
-                var base = canvas.toDataURL();
+        saveImage: function (canvas, url, params) {
                 if(url) {
-	                $.post(url,{"image" : base},function(data){
-	                        //needs handling support
-	            	});
+                	var req = {};
+                	
+                	angular.forEach(Object.keys(params), function(k) {
+                		req[k] = params[k];
+                	});
+                	req['image'] = canvas.toDataURL()
+	                $http.post(url, req).success(function(data){
+                        
+            		}).error(function(status, data) {
+            			console.log(status);
+            		});
                 }
         }
 
@@ -196,7 +203,7 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
             	// - DIV 
             	// > - IMG
             	// > - SPAN
-            	$(el).append("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><img id='default-image-" + code + "' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' /></div>"); 
+            	$(el).append("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><img id='default-image-" + code + "' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' /><span id=\"angular-uploader-figure-label-" + code + "\" class=\"angular-uploader-figure-label\">"+opts.description+"</span></div>"); 
             	$(el).append("<input id='file-input-" + code + "' type='file' " + multi + " name='angular-file-upload' style='display:none' />");
             } else {
             	$(el).append("<input id='file-input-" + code +"' type='file' " + multi + " name='angular-file-upload'/>");
