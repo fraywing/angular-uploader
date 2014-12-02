@@ -196,7 +196,7 @@ angularUploader.directive('angularUpload', function ($http, $q, $timeout, $rootS
             	// - DIV 
             	// > - IMG
             	// > - SPAN
-            	$(el).append("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><img id='default-image-" + code + "' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' /><span id=\"angular-uploader-figure-label-" + code + "\" class=\"angular-uploader-figure-label\">"+opts.description+"</span></div>"); 
+            	$(el).append("<div id=\"angular-uploader-figure-container-" + code + "\" class=\"angular-uploader-figure-container\"><img id='default-image-" + code + "' src='" + opts.defaultImage + "' width='"+opts.maxWidth+"' height= '" + opts.maxHeight + "' /></div>"); 
             	$(el).append("<input id='file-input-" + code + "' type='file' " + multi + " name='angular-file-upload' style='display:none' />");
             } else {
             	$(el).append("<input id='file-input-" + code +"' type='file' " + multi + " name='angular-file-upload'/>");
